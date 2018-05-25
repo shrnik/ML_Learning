@@ -30,12 +30,14 @@ print(data.head())
 
 
 # Linear Regression with Gradient Descent
-No_of_Iterations = 1000
+
+"""We need to tweak learning rate and number of iterations to get the optimal results"""
+No_of_Iterations = 300000
 
 b0 = 0 
 b1 = 0
 
-Learning_Rate = 0.0005
+Learning_Rate = 0.000001
 
 for i in range(No_of_Iterations):
 	cost = 0
@@ -44,7 +46,7 @@ for i in range(No_of_Iterations):
 		b0 = b0 - Learning_Rate*error
 		b1 = b1 - Learning_Rate*error*x_i
 		cost += error**2
-	if(i%10==0):
+	if(i%1000==0):
 		print('No_Iter=%d, cost = %0.3f , b0 = %0.3f , b1=%0.3f'%(i,cost,b0,b1))
 
 
@@ -58,7 +60,14 @@ plt.yticks(())
 pylab.show()
 newarr=np.vstack((X_train,test_arr)).T
 newarr2 = np.vstack((X_test,test_arr2)).T
-#print(newarr)
+
+#Statistics
+
+sse=0
+for y_p,y_o in zip(Y_test,Y_pred):
+	sse+=(y_p-y_o)**2
+print(sse/len(Y_pred))
+
 
 #Testing against sklearn linear regression
 
@@ -78,3 +87,6 @@ plt.yticks(())
 pylab.show()
 
 print('Coefficients: \n', regr.coef_)
+print('Mean Squared error: %.2f'%mean_squared_error(Y_test,y_pred))
+
+
